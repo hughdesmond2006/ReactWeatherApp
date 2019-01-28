@@ -7,6 +7,14 @@ import Weather from "./components/Weather";
 const API_KEY = "d3715170a4de4f1044f6aaec1b31582c";
 
 class App extends React.Component {
+    state = {
+        temper: undefined,
+        city: undefined,
+        country: undefined,
+        humidity: undefined,
+        description: undefined,
+        error: undefined,
+    }
     getWeather = async (e) => {
         e.preventDefault();
 
@@ -17,13 +25,38 @@ class App extends React.Component {
 
         const data = await api_call.json();
         console.log(data);
+
+        if (city && country) {
+            this.setState({
+                temper: data.main.temp_max,
+                city: data.name,
+                country: data.sys.country,
+                humidity: data.main.humidity,
+                description: data.weather[0].description,
+                error: "",
+            });
+        }else{
+            this.setState({
+                temper: undefined,
+                city: undefined,
+                country: undefined,
+                humidity: undefined,
+                description: undefined,
+                error: "Please enter a country/city",
+            });
+        }
     }
     render(){
         return(
           <div>
             <Titles />
             <Form getWeather={this.getWeather}/>
-            <Weather />
+            <Weather temperature={this.state.temper}
+                     city={this.state.city}
+                     country={this.state.country}
+                     humidity={this.state.humidity}
+                     description={this.state.description}
+                     error={this.state.error}/>
           </div>
         );
     }
