@@ -28,7 +28,7 @@ class App extends React.Component {
 
         if (city && country) {
             this.setState({
-                temper: data.main.temp_max,
+                temp: data.main.temp,
                 city: data.name,
                 country: data.sys.country,
                 humidity: data.main.humidity,
@@ -37,7 +37,7 @@ class App extends React.Component {
             });
         }else{
             this.setState({
-                temper: undefined,
+                temp: undefined,
                 city: undefined,
                 country: undefined,
                 humidity: undefined,
@@ -48,16 +48,30 @@ class App extends React.Component {
     }
     render(){
         return(
-          <div>
-            <Titles />
-            <Form getWeather={this.getWeather}/>
-            <Weather temperature={this.state.temper}
-                     city={this.state.city}
-                     country={this.state.country}
-                     humidity={this.state.humidity}
-                     description={this.state.description}
-                     error={this.state.error}/>
-          </div>
+            <div>
+                <div className="wrapper">
+                    <div className="main">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-xs-5 title-container">
+                                    <Titles />
+                                </div>
+                                <div className="col-xs-6 form-container">
+                                    <Form getWeather={this.getWeather} />
+                                    <Weather
+                                        temp={this.state.temp}
+                                        humidity={this.state.humidity}
+                                        city={this.state.city}
+                                        country={this.state.country}
+                                        description={this.state.description}
+                                        error={this.state.error}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         );
     }
 }
